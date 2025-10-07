@@ -146,4 +146,41 @@ class Post
 
         return $this;
     }
+
+    public function toggleTag(Tag $tag): static
+    {
+        if ($this->tags->contains($tag)) {
+            $this->removeTag($tag);
+        } else {
+            $this->addTag($tag);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param array<int, Tag> $tags
+     */
+    public function syncTags(array $tags): static
+    {
+        $this->tags->clear();
+
+        foreach ($tags as $tag) {
+            $this->addTag($tag);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param array<int, Tag> $tags
+     */
+    public function syncWithoutDetachingTags(array $tags): static
+    {
+        foreach ($tags as $tag) {
+            $this->addTag($tag);
+        }
+
+        return $this;
+    }
 }
