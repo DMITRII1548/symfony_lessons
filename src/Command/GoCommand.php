@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[AsCommand(
     name: 'go',
@@ -24,7 +25,8 @@ class GoCommand extends Command
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private PostService $postService
+        private PostService $postService,
+        private ValidatorInterface $validator,
     )
     {
         parent::__construct();
@@ -53,7 +55,10 @@ class GoCommand extends Command
         $post->setStatus($data['status']);
         $post->setCategory($category);
 
-        dd($this->postService->store($post));
+        $errors = $this->validator->validate($post);
+        dd($errors);
+        
+        $this->postService->store($post);
 
         return Command::SUCCESS;
     }
