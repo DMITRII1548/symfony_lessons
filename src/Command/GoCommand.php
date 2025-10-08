@@ -5,7 +5,10 @@ namespace App\Command;
 use App\Entity\Category;
 use App\Entity\Post;
 use App\Repository\PostRepository;
+use App\Resource\PostResource;
+use App\ResponseBuilder\PostResponseBuilder;
 use App\Service\PostService;
+use App\Validator\PostValidator;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -26,7 +29,8 @@ class GoCommand extends Command
     public function __construct(
         private EntityManagerInterface $em,
         private PostService $postService,
-        private ValidatorInterface $validator,
+        private PostValidator $postValidator,
+        private PostResponseBuilder $postResponseBuilder,
     )
     {
         parent::__construct();
@@ -55,10 +59,12 @@ class GoCommand extends Command
         $post->setStatus($data['status']);
         $post->setCategory($category);
 
-        $errors = $this->validator->validate($post);
-        dd($errors);
+        $this->postValidator->validate($post);
         
-        $this->postService->store($post);
+        $post = $this->postService->store($post);
+
+        $response = $this->postResponseBuilder->storePostResponse($post);
+        dd($response);
 
         return Command::SUCCESS;
     }
