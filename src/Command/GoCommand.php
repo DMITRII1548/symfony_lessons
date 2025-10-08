@@ -2,24 +2,15 @@
 
 namespace App\Command;
 
-use App\Entity\Category;
-use App\Entity\Post;
 use App\Factory\PostFactory;
-use App\Repository\PostRepository;
-use App\Resource\PostResource;
 use App\ResponseBuilder\PostResponseBuilder;
 use App\Service\PostService;
-use App\Validator\PostValidator;
+use App\DTOValidator\PostDTOValidator;
 use DateTimeImmutable;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[AsCommand(
     name: 'go',
@@ -29,7 +20,7 @@ class GoCommand extends Command
 {
     public function __construct(
         private PostService $postService,
-        private PostValidator $postValidator,
+        private PostDTOValidator $postDTOValidator,
         private PostResponseBuilder $postResponseBuilder,
         private PostFactory $postFactory,
     )
@@ -48,13 +39,13 @@ class GoCommand extends Command
             'content' => 'content',
             'published_at' => new DateTimeImmutable('2020-12-20'),
             'status' => 2,
-            'category_id' => 2,
+            'category_id' => 9999,
         ];
 
         
         $post = $this->postFactory->makeStorePostInputDTO($data);
 
-        $this->postValidator->validate($post);
+        $this->postDTOValidator->validate($post);
         
         $post = $this->postService->store($post);
 

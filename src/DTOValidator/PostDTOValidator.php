@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Validator;
+namespace App\DTOValidator;
 
 use App\DTO\Input\Post\StorePostInputDTO;
 use App\Entity\Post;
 use InvalidArgumentException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class PostValidator
+class PostDTOValidator
 {
     public function __construct(
         private ValidatorInterface $validator,
@@ -26,8 +26,9 @@ class PostValidator
             foreach ($errors as $error) {
                 $messages[$error->getPropertyPath()][] = $error->getMessage();
             }
+
         
-            throw new InvalidArgumentException(json_encode($errors));
+            throw new InvalidArgumentException(json_encode($messages));
         }
     }
 }
