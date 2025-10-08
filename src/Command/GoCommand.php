@@ -43,7 +43,7 @@ class GoCommand extends Command
 
 
         $data = [
-            'title' => 'PHP is my first language',
+            'title' => 'JS is my second language',
             'description' => 'desc',
             'content' => 'content',
             'published_at' => new DateTimeImmutable('2020-12-20'),
@@ -52,7 +52,7 @@ class GoCommand extends Command
         ];
 
         
-        $post = $this->postFactory->makePost($data);
+        $post = $this->postFactory->makeStorePostInputDTO($data);
 
         $this->postValidator->validate($post);
         
