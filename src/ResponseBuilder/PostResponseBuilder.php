@@ -36,7 +36,7 @@ class PostResponseBuilder
      */
     public function indexPostResponse(
         array $posts, 
-        int $status = 201, 
+        int $status = 200, 
         array $headers = [], 
         bool $isJson = true,
     ): JsonResponse
@@ -44,6 +44,20 @@ class PostResponseBuilder
         $postOutputDTOs = $this->postFactory->makePostOutputDTOCollection($posts);
 
         $postResource = $this->postResource->postCollection($postOutputDTOs);
+
+        return new JsonResponse($postResource, $status, $headers, $isJson);
+    }
+
+    public function showPostResponse(
+        Post $post, 
+        int $status = 200, 
+        array $headers = [], 
+        bool $isJson = true,
+    ): JsonResponse
+    {
+        $postOutputDTO = $this->postFactory->makePostOutputDTO($post);
+
+        $postResource = $this->postResource->postItem($postOutputDTO);
 
         return new JsonResponse($postResource, $status, $headers, $isJson);
     }

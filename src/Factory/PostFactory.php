@@ -6,6 +6,7 @@ use App\DTO\Input\Post\StorePostInputDTO;
 use App\DTO\Output\Post\PostOutputDTO;
 use App\Entity\Category;
 use App\Entity\Post;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PostFactory
@@ -43,12 +44,12 @@ class PostFactory
     {
         $post = new StorePostInputDTO();
 
-        $post->title = $data['title'];
-        $post->description = $data['description'];
-        $post->content = $data['content'];
-        $post->publishedAt = $data['published_at'];
-        $post->status = $data['status'];
-        $post->categoryId = $data['category_id'];
+        $post->title = $data['title'] ?? null;
+        $post->description = $data['description'] ?? null;
+        $post->content = $data['content'] ?? null;
+        $post->publishedAt = new DateTimeImmutable($data['published_at'] ?? null);
+        $post->status = $data['status'] ?? null;
+        $post->categoryId = $data['category_id'] ?? null;
 
         return $post;
     }
