@@ -2,8 +2,8 @@
 
 namespace App\Factory;
 
-use App\DTO\Input\Post\PostOutputDTO;
 use App\DTO\Input\Post\StorePostInputDTO;
+use App\DTO\Output\Post\PostOutputDTO;
 use App\Entity\Category;
 use App\Entity\Post;
 use Doctrine\ORM\EntityManagerInterface;
@@ -66,5 +66,14 @@ class PostFactory
         $postOutputDTO->category = $post->getCategory();
 
         return $postOutputDTO;
+    }
+
+    /**
+     * @param array<int, Post> $posts
+     * @return array<int, PostOutputDTO>
+     */
+    public function makePostOutputDTOCollection(array $posts): array
+    {
+        return array_map(fn ($post) => $this->makePostOutputDTO($post), $posts);
     }
 }

@@ -30,4 +30,21 @@ class PostResponseBuilder
 
         return new JsonResponse($postResource, $status, $headers, $isJson);
     }
+
+    /**
+     * @param array<int, Post> $posts
+     */
+    public function indexPostResponse(
+        array $posts, 
+        int $status = 201, 
+        array $headers = [], 
+        bool $isJson = true,
+    ): JsonResponse
+    {
+        $postOutputDTOs = $this->postFactory->makePostOutputDTOCollection($posts);
+
+        $postResource = $this->postResource->postCollection($postOutputDTOs);
+
+        return new JsonResponse($postResource, $status, $headers, $isJson);
+    }
 }

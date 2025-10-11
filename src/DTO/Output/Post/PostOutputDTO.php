@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO\Input\Post;
+namespace App\DTO\Output\Post;
 
 use App\Entity\Category;
 use DateTimeImmutable;
