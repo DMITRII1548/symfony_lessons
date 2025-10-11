@@ -38,4 +38,9 @@ class PostService
         
         return $post;
     }
+
+    public function destroy(Post $post): void
+    {
+        $this->postRepository->destroy($post);
+    }
 }

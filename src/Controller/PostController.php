@@ -72,4 +72,12 @@ final class PostController extends AbstractController
 
         return $this->postResponseBuilder->updatePostResponse($post);
     }
+
+    #[Route('/api/posts/{post}', name: 'posts_destroy', methods: ['DELETE'])]
+    public function destroy(Post $post): JsonResponse
+    {
+        $this->postService->destroy($post);
+
+        return $this->postResponseBuilder->destroyPostResponse();
+    }
 }

@@ -75,4 +75,15 @@ class PostResponseBuilder
 
         return new JsonResponse($postResource, $status, $headers, $isJson);
     }
+
+    public function destroyPostResponse(
+        int $status = 200,
+    ): JsonResponse
+    {
+        $message = [
+            'message' => 'success'
+        ];
+
+        return new JsonResponse($message, $status);
+    }
 }
