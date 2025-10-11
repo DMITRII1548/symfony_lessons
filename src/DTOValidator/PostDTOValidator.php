@@ -2,6 +2,7 @@
 
 namespace App\DTOValidator;
 
+use App\DTO\Input\Inteface\InputDTOInterface;
 use App\DTO\Input\Post\StorePostInputDTO;
 use App\Entity\Post;
 use App\Exception\ValidateException;
@@ -17,7 +18,7 @@ class PostDTOValidator
         
     }
     
-    public function validate(StorePostInputDTO $post): void
+    public function validate(InputDTOInterface $post): void
     {
         $errors = $this->validator->validate($post);
 

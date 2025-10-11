@@ -31,6 +31,20 @@ class PostResponseBuilder
         return new JsonResponse($postResource, $status, $headers, $isJson);
     }
 
+    public function updatePostResponse(
+        Post $post, 
+        int $status = 200, 
+        array $headers = [], 
+        bool $isJson = true,
+    ): JsonResponse
+    {
+        $postOutputDTO = $this->postFactory->makePostOutputDTO($post);
+
+        $postResource = $this->postResource->postItem($postOutputDTO);
+
+        return new JsonResponse($postResource, $status, $headers, $isJson);
+    }
+
     /**
      * @param array<int, Post> $posts
      */

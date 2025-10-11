@@ -54,4 +54,22 @@ final class PostController extends AbstractController
 
         return $this->postResponseBuilder->storePostResponse($post);
     }
+
+    #[Route('/api/posts/{post}', name: 'posts_update', methods: ['PATCH'])]
+    public function update(
+        Post $post,
+
+        Request $request
+    ): JsonResponse
+    {
+        $data = json_decode($request->getContent(), 'true');
+
+        $updatePostInputDTO = $this->postFactory->makeUpdatePostInputDTO($data);
+
+        $this->postDTOValidator->validate($updatePostInputDTO);
+        
+        $post = $this->postService->update($post, $updatePostInputDTO);
+
+        return $this->postResponseBuilder->updatePostResponse($post);
+    }
 }

@@ -8,7 +8,7 @@ use App\Validator\Constraint\EntiryExists;
 use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class StorePostInputDTO implements InputDTOInterface
+class UpdatePostInputDTO implements InputDTOInterface
 {
     #[Assert\NotBlank(allowNull: false, normalizer: 'trim')]
     #[Assert\Length(min: 2, max: 255)]
