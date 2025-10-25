@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\DTOValidator\PostDTOValidator;
+use App\DTOValidator\DTOValidator;
 use App\Entity\Post;
 use App\Factory\PostFactory;
 use App\ResponseBuilder\PostResponseBuilder;
@@ -17,7 +17,7 @@ final class PostController extends AbstractController
     public function __construct(
         private PostService $postService,   
         private PostResponseBuilder $postResponseBuilder,
-        private PostDTOValidator $postDTOValidator,
+        private DTOValidator $DTOValidator,
         private PostFactory $postFactory,
     )
     {
@@ -48,7 +48,7 @@ final class PostController extends AbstractController
 
         $post = $this->postFactory->makeStorePostInputDTO($data);
 
-        $this->postDTOValidator->validate($post);
+        $this->DTOValidator->validate($post);
         
         $post = $this->postService->store($post);
 
@@ -66,7 +66,7 @@ final class PostController extends AbstractController
 
         $updatePostInputDTO = $this->postFactory->makeUpdatePostInputDTO($data);
 
-        $this->postDTOValidator->validate($updatePostInputDTO);
+        $this->DTOValidator->validate($updatePostInputDTO);
         
         $post = $this->postService->update($post, $updatePostInputDTO);
 

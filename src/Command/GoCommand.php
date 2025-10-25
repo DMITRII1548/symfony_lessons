@@ -5,7 +5,7 @@ namespace App\Command;
 use App\Factory\PostFactory;
 use App\ResponseBuilder\PostResponseBuilder;
 use App\Service\PostService;
-use App\DTOValidator\PostDTOValidator;
+use App\DTOValidator\DTOValidator;
 use DateTimeImmutable;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -20,7 +20,7 @@ class GoCommand extends Command
 {
     public function __construct(
         private PostService $postService,
-        private PostDTOValidator $postDTOValidator,
+        private DTOValidator $DTOValidator,
         private PostResponseBuilder $postResponseBuilder,
         private PostFactory $postFactory,
     )
@@ -45,7 +45,7 @@ class GoCommand extends Command
         
         $post = $this->postFactory->makeStorePostInputDTO($data);
 
-        $this->postDTOValidator->validate($post);
+        $this->DTOValidator->validate($post);
         
         $post = $this->postService->store($post);
 

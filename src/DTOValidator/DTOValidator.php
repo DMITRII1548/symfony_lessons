@@ -9,7 +9,7 @@ use App\Exception\ValidateException;
 use InvalidArgumentException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class PostDTOValidator
+class DTOValidator
 {
     public function __construct(
         private ValidatorInterface $validator,
