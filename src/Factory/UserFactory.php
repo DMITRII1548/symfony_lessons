@@ -3,19 +3,21 @@
 namespace App\Factory;
 
 use App\DTO\Input\User\StoreUserInputDTO;
+use App\DTO\Output\User\RegisterUserOutputDTO;
 use App\DTO\Output\User\UserOutputDTO;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFactory
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private UserPasswordHasherInterface $passwordHasher
+        private UserPasswordHasherInterface $passwordHasher,
+        private JWTTokenManagerInterface $jWTTokenManager
     )
-    {
-        
+    {  
     }
 
     /**
@@ -41,7 +43,18 @@ class UserFactory
         return $user;
     }
 
-    public function makeUserOutputDTO(User $user) : UserOutputDTO
+    public function makeUserRegisterOutputDTO(User $user) : RegisterUserOutputDTO
+    {
+        $userDTO = new RegisterUserOutputDTO();
+
+        $userDTO->id = $user->getId();
+        $userDTO->email = $user->getEmail();
+        $userDTO->token = $this->jWTTokenManager->create($user);
+
+        return $userDTO;
+    }
+
+    public function makeUserOutputDTO(User $user): UserOutputDTO
     {
         $userDTO = new UserOutputDTO();
 

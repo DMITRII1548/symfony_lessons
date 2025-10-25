@@ -33,6 +33,14 @@ final class AuthController extends AbstractController
 
         $user = $this->userService->store($userDTO);
 
-        return $this->userResponseBuilder->storeUserResponse($user);
+        return $this->userResponseBuilder->registerUserResponse($user);
+    }
+
+    #[Route('/api/auth/me', name: 'auth_me', methods: ['GET'])]
+    public function me()
+    {
+        $user = $this->getUser();
+
+        return $this->userResponseBuilder->meUserResponse($user);
     }
 }

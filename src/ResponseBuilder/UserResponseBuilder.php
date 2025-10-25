@@ -17,15 +17,29 @@ class UserResponseBuilder
     { 
     }
 
-    public function storeUserResponse(
+    public function registerUserResponse(
         User $user, 
         int $status = 201, 
         array $headers = [], 
         bool $isJson = true,
     ): JsonResponse
     {
-        $userOutputDTO = $this->userFactory->makeUserOutputDTO($user);
+        $userOutputDTO = $this->userFactory->makeUserRegisterOutputDTO($user);
 
+        $userResource = $this->userResource->userRegisterItem($userOutputDTO);
+
+        return new JsonResponse($userResource, $status, $headers, $isJson);
+    }
+
+    public function meUserResponse(
+        User $user,
+        int $status = 200,
+        array $headers = [],
+        bool $isJson = true,
+    ): JsonResponse
+    {
+        $userOutputDTO = $this->userFactory->makeUserOutputDTO($user);
+        
         $userResource = $this->userResource->userItem($userOutputDTO);
 
         return new JsonResponse($userResource, $status, $headers, $isJson);
